@@ -1,6 +1,6 @@
 ## Description:
 
-**mypseudo** is a deployable utility server for creating your own HTTP callback subscriptions, and it can be used to pipe together web APIs. It comes with a scripting environment for extending functionality and a web interface.
+**mypseudo** is a deployable utility for creating event-based HTTP callbacks (webhooks). It comes with a web interface and a scripting environment for extending functionality.
 
 ## Installation:
 
@@ -19,4 +19,5 @@ Install:
 
 ## Writing parser scripts:
 
-...
+See scripts/examplescript.py
+

@@ -1,0 +1,12 @@
+{
+	"user":"root",
+	"passwd":"toor",
+	"mysql": {
+		"host":"localhost",
+		"user":"root",
+		"passwd":"xxxxxxxxxx"
+	},
+	"min_period":30,
+	"max_period":28800,
+	"default_period":1800 
+}

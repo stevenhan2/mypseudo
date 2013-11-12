@@ -1,0 +1,12 @@
+log.txt
+*.pyc
+*.info
+.DS_Store
+Thumbs.db
+.cache
+.project
+.settings
+
+.hg
+.CVS
+.svn

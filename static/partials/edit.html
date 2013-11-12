@@ -1,0 +1,125 @@
+<div class="container" style="margin-bottom: 40px">
+	<h1>Editing callback</h1>
+	<hr />
+	<div class="row col-lg-9">
+	<form class="form-horizontal" role="form">
+	  <div class="form-group">
+	    <label class="col-lg-3 control-label">Last update</label>
+	    <div class="col-lg-9">
+	      <p class="form-control-static" ng-bind="callback.last_time"></p>
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <label class="col-lg-3 control-label">Status</label>
+	    <div class="col-lg-9">
+	    	<p class="form-control-static">
+	    		<div ng-switch on="callback.enabled">
+					<div class="text-success" ng-switch-when=1><a class="btn btn-success btn-sm" ng-click="toggle()">Enabled</a></div>
+					<div class="text-danger" ng-switch-when=0><a class="btn btn-danger btn-sm" ng-click="toggle()">Disabled</a></div>
+					<div ng-switch-default=>n/a</div>
+				</div>
+			</p>
+	    </div>
+	  </div>
+	</form>
+
+	<hr />
+		<form class="form-horizontal" role="form">
+			<div class="form-group">
+				<label class="col-lg-3 control-label">URL</label>
+				<div class="col-lg-9">
+					<input type="text" class="form-control" id="inputPassword" placeholder="What URL do you want to check on?" ng-model="callback.url">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 control-label">Callback URL</label>
+				<div class="col-lg-9">
+					<input type="text" class="form-control" id="inputPassword" placeholder="Where do you want mypseudo to callback to?" ng-model="callback.callbacks_url">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-lg-3 control-label">Parser</label>
+				<div class="col-lg-9">
+					<select class="form-control" ng-model="callback.script" ng-change="scriptSelectChange()" ng-options="v for v in scripts.values">
+					</select>
+				</div>
+			</div>
+		</form>
+		<hr />
+
+		<h3>Request variables</h3>
+		<hr />
+		<table class="table striped">
+			<col width="20%">
+				<col width="70%">
+				<col width="10%">
+			<thead>
+				<tr>
+					<th>Key</th>
+					<th>Value</th>
+					<th>Options</th>
+				<tr>
+			</thead>
+			<tbody>
+			<tr ng-repeat="requestVar in callback.request_vars">
+				<td><input type="text" class="form-control" id="inputPassword" placeholder="Key" ng-model="requestVar.keyword"></td>
+				<td><input type="text" class="form-control" id="inputPassword" placeholder="Value" ng-model="requestVar.value"></td>
+				<td><a class="btn btn-warning btn-sm" ng-click="deleteRequestVar(requestVar.local_id)">Delete</a></td>
+			</tr>
+			</tbody>
+		</table>
+		<button ng-click="newRequestVar()" class="btn btn-default">Add new variable</button>
+
+		<hr />	
+		<h3>Parser variables</h3>
+		<hr />
+		<div ng-switch on="script_usage != null && script_usage.length > 1">
+
+			<div ng-switch-when=true>
+				<pre><div ng-bind="script_usage"></div></pre>
+				<hr />
+			</div>
+			<div ng-switch-when=false></div>
+		</div>
+		<table class="table striped">
+			<col width="20%">
+				<col width="70%">
+				<col width="10%">
+			<thead>
+				<tr>
+					<th>Key</th>
+					<th>Value</th>
+					<th>Options</th>
+				<tr>
+			</thead>
+			<tbody>
+			<tr ng-repeat="parserVar in callback.parser_vars">
+				<td><input type="text" class="form-control" id="inputPassword" placeholder="Key" ng-model="parserVar.keyword"></td>
+				<td><textarea type="text" class="form-control" id="inputPassword" placeholder="Value" rows="3" ng-model="parserVar.value"></textarea></td>
+				<td><a class="btn btn-warning btn-sm" ng-click="deleteParserVar(parserVar.local_id)">Delete</a></td>
+			</tr>
+			</tbody>
+		</table>
+
+		<button ng-click="newParserVar()" class="btn btn-default">Add new variable</button>
+		<hr />
+
+
+	<div ng-switch on="callback.id != undefined">
+		<div class="text-success" ng-switch-when=true>
+			<button ng-click="save()" class="btn btn-primary">Save</button>
+			<button ng-click="deleteCallback()" class="btn btn-danger pull-right">Delete</button>
+		</div>
+		<div class="text-danger" ng-switch-when=false>
+			<button ng-click="save()" class="btn btn-success">Create</button>
+			<button ng-click="deleteCallback()" class="btn btn-danger pull-right">Cancel</button>
+		</div>
+		<div ng-switch-default=>n/a</div>
+	</div>
+	
+	</div>
+</div>
+
+
+</div>

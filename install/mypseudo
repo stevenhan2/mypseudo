@@ -1,0 +1,45 @@
+#!/bin/bash
+DIR=/usr/local/bin/mypseudo
+DAEMON=$DIR/daemon.py
+DAEMON_NAME=mypseudo
+
+DAEMON_USER=root
+
+PIDFILE=/var/run/$DAEMON_NAME.pid
+
+# Get function from functions library
+. /lib/lsb/init-functions
+
+# Start the service mypseudo
+start() {
+
+        log_daemon_msg "Starting system $DAEMON_NAME daemon"
+        start-stop-daemon --background --start --pidfile $PIDFILE --make-pidfile --user $DAEMON_USER --exec $DAEMON
+        log_end_msg $?
+}
+# Restart the service mypseudo
+stop() {
+        log_daemon_msg "Stopping system $DAEMON_NAME daemon"
+        start-stop-daemon --stop --pidfile $PIDFILE --retry 10
+        log_end_msg $?
+}
+### main logic ###
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  status)
+        status mypseudo
+        ;;
+  restart|reload|condrestart)
+        stop
+        start
+        ;;
+  *)
+        echo $"Usage: $0 {start|stop|restart|reload|status}"
+        exit 1
+esac
+exit 0

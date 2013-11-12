@@ -1,0 +1,48 @@
+<div class="container">
+	<h1>mypseudo</h1>
+	<hr />
+	<div class="row">
+		<a href="#/create" class="btn btn-primary">Create new</a>
+		<a href="/logout" class="btn btn-danger pull-right" style="text-align: right">Logout</a>
+	</div>
+	<hr />
+	<div class="row">
+
+		<div ng-controller='ListCtrl'>
+
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Status</th>
+						<th>URL</th>
+						<th>Callback URL</th>
+						<th>Parser</th>
+						<th>Last updated</th>
+						<th>Options</th>
+						<th></th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr ng-repeat="callback in callbacks">
+						<td ng-switch on ="callback.enabled">
+							<div class="text-success" ng-switch-when=1><strong>Enabled</strong></div>
+							<div class="text-danger" ng-switch-when=0><strong>Disabled</strong></div>
+							<div ng-switch-default=>n/a</div>
+						</td>
+						<!-- <td>{{callback.id}}</td> -->
+						<td>{{callback.url}}</td>
+						<td>{{callback.callbacks_url}}</td>
+						<td>{{callback.script}}</td>
+						<td>{{callback.last_time}}</td>
+						<td><a class="btn btn-default" href="#/edit/{{callback.id}}">Edit</a></td>
+					</tr>
+				</tbody>
+
+
+			</table>
+		</div>
+	</div>
+
+
+</div>

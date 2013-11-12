@@ -6,6 +6,7 @@ Thumbs.db
 .cache
 .project
 .settings
+config.json
 
 .hg
 .CVS

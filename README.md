@@ -28,7 +28,14 @@ If you're planning on just using the web interface occasionally and having it of
 
 ## Writing parser scripts:
 
-A callback is paired with a *parser script* that takes the soup from a request and some variables to produce structured content and a decision on whether to 
+A callback is paired with a *parser script* that takes the soup from a request and some variables to produce structured content and a decision of whether to actually send a request to the callback url.
 
 See scripts/examplescript.py
+
+## Todo:
+
+* Input sanitization and sanity checks
+* Daemon error logging
+* Daemon auto restarting
+* Write basic RegEx/RSS scripts
 

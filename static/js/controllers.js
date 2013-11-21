@@ -38,7 +38,8 @@ controller('EditCtrl', function EditCtrl($scope, $routeParams, $resource, $http,
 		if ($scope.initialized == true)
 			$scope.callback.$save(null, function(){
 				toast("Callback successfully saved.", true);
-			}, function(){
+			}, function(response){
+				console.log(response);
 				toast("Error: Callback could not be saved", false);
 			});
 		console.log($scope.callback);
@@ -101,7 +102,8 @@ controller('EditCtrl', function EditCtrl($scope, $routeParams, $resource, $http,
 			Callback.delete(null, $scope.callback, function(){
 				toast("Callback successfully deleted", true);
 				window.history.back();
-			}, function(){
+			}, function(response){
+				console.log(response);
 				toast("Error: Callback could not be deleted", false);
 			});
 		else {

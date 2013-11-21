@@ -28,24 +28,27 @@ class CallbackSource:
 
 
 def doCallback(callback, parser_vars, request_vars):
-	print request_vars
-	payload = dict([(x['keyword'] , x['value']) for x in request_vars])
-	vars = dict([(x['keyword'], x['value']) for x in parser_vars])
-	url_request = requests.get(callback['url'], params=payload)
-	soup = BeautifulSoup(url_request.content)
-	source = CallbackSource(id=callback['id'])
-	result = importlib.import_module('scripts.' + callback['script']).parse(soup=soup, vars=vars, data_source=source)
+	try:
+		print request_vars
+		payload = dict([(x['keyword'] , x['value']) for x in request_vars])
+		vars = dict([(x['keyword'], x['value']) for x in parser_vars])
+		url_request = requests.get(callback['url'], params=payload)
+		soup = BeautifulSoup(url_request.content)
+		source = CallbackSource(id=callback['id'])
+		result = importlib.import_module('scripts.' + callback['script']).parse(soup=soup, vars=vars, data_source=source)
 
-	if result['updated']:
-		callback_url_request = requests.post(callback['callback_url'], data=result['data'], timeout=1)
-		new_period = int(callback['period'] * 0.9 + config.config['min_period'] * 0.1)
-		daemonutils.callbackMarkUpdate(id=callback['id'])		
-	else:
-		new_period = int(callback['period'] * 0.9 + config.config['max_period'] * 0.1)
-		if new_period > config.config['max_period']:
-			new_period = int(config.config['max_period'])
+		if result['updated']:
+			callback_url_request = requests.post(callback['callback_url'], data=result['data'], timeout=1)
+			new_period = int(callback['period'] * 0.9 + config.config['min_period'] * 0.1)
+			daemonutils.callbackMarkUpdate(id=callback['id'])		
+		else:
+			new_period = int(callback['period'] * 0.9 + config.config['max_period'] * 0.1)
+			if new_period > config.config['max_period']:
+				new_period = int(config.config['max_period'])
 
-	daemonutils.setPeriod(id=callback['id'], period=new_period)
+		daemonutils.setPeriod(id=callback['id'], period=new_period)
+	except Error as e:
+		log(str(e))
 
 def log(message):
 	if DEBUGGING:

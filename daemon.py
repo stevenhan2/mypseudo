@@ -47,7 +47,7 @@ def doCallback(callback, parser_vars, request_vars):
 				new_period = int(config.config['max_period'])
 
 		daemonutils.setPeriod(id=callback['id'], period=new_period)
-	except Error as e:
+	except requests.exceptions.RequestException as e:
 		log(str(e))
 
 def log(message):

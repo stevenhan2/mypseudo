@@ -8,5 +8,6 @@
 	},
 	"min_period":30,
 	"max_period":28800,
-	"default_period":1800 
+	"default_period":1800,
+	"debugging":true
 }

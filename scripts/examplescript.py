@@ -4,6 +4,6 @@ def usage():
 	"""
 
 def parse(soup, vars, data_source):
-	data_source.insert('hello','world')
-	to_return = {'param' : 'value'}
+	# data_source.insert('hello','world')
+	to_return = {'param' : soup.title}
 	return {'data' : to_return, 'updated' : True}

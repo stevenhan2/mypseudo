@@ -11,7 +11,7 @@ import time
 from bs4 import BeautifulSoup
 import datetime
 
-DEBUGGING = False
+DEBUGGING = True
 
 class CallbackSource:
 	def __init__(self, id):

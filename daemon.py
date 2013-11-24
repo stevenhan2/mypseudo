@@ -50,6 +50,7 @@ def doCallback(callback, parser_vars, request_vars):
 			if new_period > config.config['max_period']:
 				new_period = int(config.config['max_period'])
 
+		config.log('Setting callback ID=%d period to %d' % (callback['id'], new_period))
 		daemonutils.setPeriod(id=callback['id'], period=new_period)
 	except requests.exceptions.RequestException as e:
 		config.log('Error occured for ID=%d: %s' % (callback['id'],str(e)))
@@ -60,7 +61,7 @@ if __name__ == '__main__':
 	while True:
 		callbacks = [x for x in daemonutils.list() if x['enabled'] > 0 and (x['last_time'] is None or (datetime.datetime.now() - x['last_time']).seconds > x['period'])]
 		for a in callbacks:
-			config.log('Creating thread for ID=%d...' % a['id']))
+			config.log('Creating thread for ID=%d...' % a['id'])
 			t = threading.Thread(target=doCallback, args=(daemonutils.getCallback(a['id']), daemonutils.parserVars(a['id']), daemonutils.requestVars(a['id'])))
 			t.start()
 		if not callbacks:

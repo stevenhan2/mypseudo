@@ -1,6 +1,9 @@
 # MySQL setup
-sudo echo "create database mypseudo" | mysql
-sudo mysql mypseudo < ./install/mypseudo.sql
+sudo echo "create database mypseudo" | mysql -p
+sudo mysql -p mypseudo < ./install/mypseudo.sql
+
+# Remove previous install
+sudo rm -rf /etc/init.d/mypseudo /usr/local/bin/mypseudo
 
 # Program files
 sudo cp ./install/mypseudo /etc/init.d/mypseudo

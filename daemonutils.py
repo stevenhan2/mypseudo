@@ -57,8 +57,6 @@ def setPeriod(id, period):
 	cursor.execute("update mypseudo.callbacks set callbacks.period=%s where callbacks.id=%s limit 1",(period,id))
 	db.commit()
 
-
-
 def setCallbackPeriod(id, period):
 	cursor = db.cursor(MySQLdb.cursors.DictCursor)
 	cursor.execute("update mypseudo.callbacks set period=%s where callbacks.id=%s limit 1",(id, period))

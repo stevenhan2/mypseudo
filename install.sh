@@ -2,7 +2,8 @@
 sudo echo "create database mypseudo" | mysql -p
 sudo mysql -p mypseudo < ./install/mypseudo.sql
 
-# Remove previous install
+# Remove previous install (preserve config)
+sudo cp /usr/local/bin/mypseudo/config.json ../mypseudo/config.json
 sudo rm -rf /etc/init.d/mypseudo /usr/local/bin/mypseudo
 
 # Program files

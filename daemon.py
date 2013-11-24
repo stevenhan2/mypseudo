@@ -22,7 +22,7 @@ class CallbackSource:
 		daemonutils.setCallbackData(id=self.id, key=key, value=value)
 
 	def get(self, key):
-		return daemonutils.fetchCallbackData(id=self.id, key=key)
+		return daemonutils.fetchCallbackData(id=self.id, key=key)['value']
 
 	def delete(self, key):
 		daemonutils.deleteCallbackData(id=self.id, key=key)

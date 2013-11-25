@@ -12,5 +12,5 @@ sudo chmod 755 /etc/init.d/mypseudo
 
 # Daemon setup
 sudo cp -r ../mypseudo /usr/local/bin/mypseudo
-sudo chmod -R 755 /etc/init.d/mypseudo
+sudo chmod -R 755 /usr/local/bin/mypseudo
 sudo update-rc.d mypseudo defaults

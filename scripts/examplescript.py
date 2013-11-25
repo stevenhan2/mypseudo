@@ -4,11 +4,13 @@ def usage():
 	"""
 
 def parse(soup, vars, data_source):
+	post_parameters = {}
+	title_text = str(soup.title)
 
-	same_title = data_source.get('title') == soup.title
+	same_title = data_source.get('title') == title_text
 
 	if not same_title:
 		data_source.insert('title',soup.title)
-		to_return = {'param' : soup.title}
+		post_parameters['example_param'] = title_text
 
-	return {'data' : to_return, 'updated' : not same_title}
+	return {'data' : post_parameters, 'updated' : not same_title}

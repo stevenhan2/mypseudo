@@ -5,7 +5,10 @@ import datetime
 import os
 
 dbconfig = config.config['mysql']
-db = MySQLdb.connect(host=dbconfig['host'], user=dbconfig['user'], passwd=dbconfig['passwd'], db="mypseudo")
+# db = MySQLdb.connect(host=dbconfig['host'], user=dbconfig['user'], passwd=dbconfig['passwd'], db="mypseudo")
+
+def getDB():
+	return MySQLdb.connect(host=dbconfig['host'], user=dbconfig['user'], passwd=dbconfig['passwd'], db="mypseudo")
 
 class DateTimeEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -16,11 +19,15 @@ class DateTimeEncoder(json.JSONEncoder):
         return encoded_object
 
 def listCallbacks():
+	db = getDB()
 	cursor = db.cursor(MySQLdb.cursors.DictCursor)
 	cursor.execute('CALL `list_callbacks` ();')
-	return json.dumps(cursor.fetchall(), sort_keys=True, indent=4, separators=(',',': '), cls=DateTimeEncoder, ensure_ascii=True)
+	toReturn = json.dumps(cursor.fetchall(), sort_keys=True, indent=4, separators=(',',': '), cls=DateTimeEncoder, ensure_ascii=True)
+	cursor.close()
+	return toReturn
 
 def getCallback(in_id):
+	db = getDB()
 	cursor = db.cursor(MySQLdb.cursors.DictCursor)
 	cursor.execute('CALL `get_callback` (%s);',(str(int(in_id))))
 
@@ -28,6 +35,7 @@ def getCallback(in_id):
 	tmp = cursor.fetchone()
 	cursor.close()
 
+	db = getDB()
 	cursor = db.cursor(MySQLdb.cursors.DictCursor)
 	cursor.execute('CALL `get_parser_vars` (%s)',(str(int(in_id))))
 
@@ -36,6 +44,7 @@ def getCallback(in_id):
 
 	tmp['parser_vars'] = tmp2
 
+	db = getDB()
 	cursor = db.cursor(MySQLdb.cursors.DictCursor)
 	cursor.execute('CALL `get_request_vars` (%s)',(str(int(in_id))))
 
@@ -47,6 +56,7 @@ def getCallback(in_id):
 	return json.dumps(tmp, sort_keys=True, indent=4, separators=(',',': '), cls=DateTimeEncoder, ensure_ascii=True)
 
 def saveCallback(data):
+	db = getDB()
 	cursor = db.cursor(MySQLdb.cursors.DictCursor)
 	callback = json.loads(data)
 	if "id" in callback:
@@ -73,14 +83,17 @@ def saveCallback(data):
 		else:
 			cursor.execute("insert into mypseudo.request_vars (callbacks_id, keyword, value) values (%s,%s,%s) on duplicate key update value=%s", (callback['id'], request_var['keyword'], request_var['value'], request_var['keyword']))
 
+	cursor.close()
 	db.commit()
 	return getCallback(callback['id'])
 
 def deleteCallback(data):
+	db = getDB()
 	cursor = db.cursor(MySQLdb.cursors.DictCursor)
 	callback = json.loads(data)
 	cursor.execute("delete from mypseudo.callbacks where mypseudo.callbacks.id=%s", (callback['id']))
 	db.commit()
+	cursor.close()
 	return ""
 
 

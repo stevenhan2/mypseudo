@@ -22,7 +22,11 @@ class CallbackSource:
 		daemonutils.setCallbackData(id=self.id, key=key, value=value)
 
 	def get(self, key):
-		return daemonutils.fetchCallbackData(id=self.id, key=key)['value']
+		pair = daemonutils.fetchCallbackData(id=self.id, key=key)
+		if pair:
+			return pair['value']
+		else
+			return None
 
 	def delete(self, key):
 		daemonutils.deleteCallbackData(id=self.id, key=key)
@@ -38,7 +42,10 @@ def doCallback(callback, parser_vars, request_vars):
 		source = CallbackSource(id=callback['id'])
 
 		# Run script
-		result = importlib.import_module('scripts.' + callback['script']).parse(soup=soup, vars=vars, data_source=source)
+		try:
+			result = importlib.import_module('scripts.' + callback['script']).parse(soup=soup, vars=vars, data_source=source)
+		except ImportError as e:
+			config.log('Error occured for ID=%d: %s' % (callback['id'],str(e)))
 
 		if result['updated']:
 			config.log('ID=%d has detected update at %s and will now request %s' % (callback['id'], callback['url'], callback['callback_url']))

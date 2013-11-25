@@ -1,0 +1,1 @@
+<?php mail('test@grasscat.org', 'Your callback was hit!', var_export($_REQUEST, true)); ?>

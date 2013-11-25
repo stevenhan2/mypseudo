@@ -24,6 +24,7 @@ def listCallbacks():
 	cursor.execute('CALL `list_callbacks` ();')
 	toReturn = json.dumps(cursor.fetchall(), sort_keys=True, indent=4, separators=(',',': '), cls=DateTimeEncoder, ensure_ascii=True)
 	cursor.close()
+	db.close()
 	return toReturn
 
 def getCallback(in_id):
@@ -50,6 +51,7 @@ def getCallback(in_id):
 
 	tmp2 = cursor.fetchall()
 	cursor.close()
+	db.close()
 
 	tmp['request_vars'] = tmp2
 
@@ -84,6 +86,7 @@ def saveCallback(data):
 			cursor.execute("insert into mypseudo.request_vars (callbacks_id, keyword, value) values (%s,%s,%s) on duplicate key update value=%s", (callback['id'], request_var['keyword'], request_var['value'], request_var['keyword']))
 
 	cursor.close()
+	db.close()
 	db.commit()
 	return getCallback(callback['id'])
 
@@ -94,6 +97,7 @@ def deleteCallback(data):
 	cursor.execute("delete from mypseudo.callbacks where mypseudo.callbacks.id=%s", (callback['id']))
 	db.commit()
 	cursor.close()
+	db.close()
 	return ""
 
 

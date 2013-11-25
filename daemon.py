@@ -25,7 +25,7 @@ class CallbackSource:
 		pair = daemonutils.fetchCallbackData(id=self.id, key=key)
 		if pair:
 			return pair['value']
-		else
+		else:
 			return None
 
 	def delete(self, key):

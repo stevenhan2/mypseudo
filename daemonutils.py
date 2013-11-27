@@ -49,6 +49,14 @@ def requestVars(id):
 def callbackMarkUpdate(id):
 	db = getDB()
 	cursor = db.cursor(MySQLdb.cursors.DictCursor)
+	cursor.execute("update mypseudo.callbacks set callbacks.last_update=now() where callbacks.id=%s limit 1",(id))
+	db.commit()
+	cursor.close()
+	db.close()
+
+def callbackMarkCheck(id):
+	db = getDB()
+	cursor = db.cursor(MySQLdb.cursors.DictCursor)
 	cursor.execute("update mypseudo.callbacks set callbacks.last_time=now() where callbacks.id=%s limit 1",(id))
 	db.commit()
 	cursor.close()
@@ -67,6 +75,15 @@ def fetchCallbackData(id, key):
 	cursor = db.cursor(MySQLdb.cursors.DictCursor)
 	cursor.execute("select keyword, value from mypseudo.callbacks_data where callbacks_id=%s and keyword=%s limit 1",(id, key))
 	toReturn = cursor.fetchone()
+	cursor.close()
+	db.close()
+	return toReturn
+
+def fetchAllCallbackData(id, key):
+	db = getDB()
+	cursor = db.cursor(MySQLdb.cursors.DictCursor)
+	cursor.execute("select keyword as key, value as value from mypseudo.callbacks_data where callbacks_id=%s",(id))
+	toReturn = cursor.fetchall()
 	cursor.close()
 	db.close()
 	return toReturn

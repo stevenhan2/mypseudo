@@ -28,6 +28,9 @@ class CallbackSource:
 		else:
 			return None
 
+	def getAll(self):
+		return daemonutils.fetchALlCallbackData(id=self.id)
+
 	def delete(self, key):
 		daemonutils.deleteCallbackData(id=self.id, key=key)
 
@@ -50,15 +53,15 @@ def doCallback(callback, parser_vars, request_vars):
 		if result['updated']:
 			config.log('ID=%d has detected update at %s and will now request %s' % (callback['id'], callback['url'], callback['callback_url']))
 			callback_url_request = requests.post(callback['callback_url'], data=result['data'], timeout=1)
-			new_period = int(callback['period'] * 0.9 + config.config['min_period'] * 0.1)
-			daemonutils.callbackMarkUpdate(id=callback['id'])		
+			new_period = int(callback['period'] * 0.95 + config.config['min_period'] * 0.05)
+			daemonutils.callbackMarkUpdate(id=callback['id'])
 		else:
-			new_period = int(callback['period'] * 0.9 + config.config['max_period'] * 0.1)
-			if new_period > config.config['max_period']:
-				new_period = int(config.config['max_period'])
+			new_period = int(callback['period'] * 0.95 + config.config['max_period'] * 0.05)
 
 		config.log('Setting callback ID=%d period to %d' % (callback['id'], new_period))
 		daemonutils.setPeriod(id=callback['id'], period=new_period)
+		daemonutils.callbackMarkCheck(id=callback['id'])
+
 	except requests.exceptions.RequestException as e:
 		config.log('Error occured for ID=%d: %s' % (callback['id'],str(e)))
 		config.log('Faulty callback details: %s' % str(callback))

@@ -64,7 +64,7 @@ def saveCallback(data):
 	if "id" in callback:
 		cursor.execute("update mypseudo.callbacks set script=%s, url=%s, callback_url=%s, enabled=%s where id=%s", (callback['script'], callback['url'], callback['callbacks_url'], callback['enabled'], callback['id']))
 	else:
-		cursor.execute("insert into mypseudo.callbacks (url, callback_url, script, period, enabled) values (%s, %s, %s, %s, %s)", (callback['url'], callback['callbacks_url'], callback['script'], 30, 1))
+		cursor.execute("insert into mypseudo.callbacks (url, callback_url, script, period, enabled) values (%s, %s, %s, %s, %s)", (callback['url'], callback['callbacks_url'], callback['script'], config.config['default_period'], 1))
 		callback['id'] = cursor.lastrowid
 
 	for to_delete in callback['to_delete_parser_vars']:
@@ -86,8 +86,8 @@ def saveCallback(data):
 			cursor.execute("insert into mypseudo.request_vars (callbacks_id, keyword, value) values (%s,%s,%s) on duplicate key update value=%s", (callback['id'], request_var['keyword'], request_var['value'], request_var['keyword']))
 
 	cursor.close()
-	db.close()
 	db.commit()
+	db.close()
 	return getCallback(callback['id'])
 
 def deleteCallback(data):

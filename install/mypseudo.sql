@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 11, 2013 at 03:47 PM
+-- Generation Time: Nov 26, 2013 at 08:31 PM
 -- Server version: 5.1.66-0+squeeze1
 -- PHP Version: 5.3.3-7+squeeze17
 
@@ -33,7 +33,7 @@ mypseudo.callbacks.id,
 mypseudo.callbacks.enabled,
 mypseudo.callbacks.callback_url as callbacks_url,
 mypseudo.callbacks.script as script,
-mypseudo.callbacks.last_time
+mypseudo.callbacks.last_update as last_time
 from mypseudo.callbacks
 where callback_id=mypseudo.callbacks.id
 limit 1$$
@@ -67,7 +67,7 @@ mypseudo.callbacks.id,
 mypseudo.callbacks.enabled,
 mypseudo.callbacks.callback_url as callbacks_url,
 mypseudo.callbacks.script as script,
-mypseudo.callbacks.last_time
+mypseudo.callbacks.last_update as last_time
 from mypseudo.callbacks
 order by id asc$$
 
@@ -85,10 +85,11 @@ CREATE TABLE IF NOT EXISTS `callbacks` (
   `callback_url` varchar(1023) NOT NULL,
   `script` varchar(255) NOT NULL,
   `last_time` timestamp NULL DEFAULT NULL,
+  `last_update` timestamp NULL DEFAULT NULL,
   `period` int(11) NOT NULL,
   `enabled` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=44 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=43 ;
 
 -- --------------------------------------------------------
 
@@ -104,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `callbacks_data` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `callback_keyword` (`callbacks_id`,`keyword`),
   KEY `callbacks` (`callbacks_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
 -- --------------------------------------------------------
 
@@ -120,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `parser_vars` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyword_callbacks_id` (`callbacks_id`,`keyword`),
   KEY `callbacks` (`callbacks_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=28 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=32 ;
 
 -- --------------------------------------------------------
 
@@ -136,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `request_vars` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyword_callbacks_id` (`callbacks_id`,`keyword`),
   KEY `callbacks` (`callbacks_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=29 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Constraints for dumped tables

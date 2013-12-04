@@ -1,3 +1,5 @@
+#! /bin/sh
+
 # MySQL setup
 sudo echo "create database mypseudo" | mysql -p
 sudo mysql -p mypseudo < ./install/mypseudo.sql
